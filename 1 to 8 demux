@@ -1,0 +1,89 @@
+Verilog code:-
+module demux_1to8 (
+    input wire data_in,       
+    input wire [2:0] select,  
+    output reg [7:0] data_out 
+);
+always @(*) 
+begin
+    data_out = 8'b00000000;
+    if (select == 3'b000)
+        data_out[0] = data_in;
+    else if (select == 3'b001)
+        data_out[1] = data_in;
+    else if (select == 3'b010)
+        data_out[2] = data_in;
+    else if (select == 3'b011)
+        data_out[3] = data_in;
+    else if (select == 3'b100)
+        data_out[4] = data_in;
+    else if (select == 3'b101)
+        data_out[5] = data_in;
+    else if (select == 3'b110)
+        data_out[6] = data_in;
+    else if (select == 3'b111)
+        data_out[7] = data_in;
+end
+endmodule
+
+
+
+Test Bench:-
+module tb_demux_1to8;
+    reg data_in;
+    reg [2:0] select;
+    wire [7:0] data_out;
+    demux_1to8 uut (
+        .data_in(data_in),
+        .select(select),
+        .data_out(data_out)
+    );
+    initial begin
+        $display("Time\tData_in\tSelect\tData_out");
+        $monitor("%0d\t%b\t%b\t%b", $time, data_in, select, data_out);
+        data_in = 1; select = 3'b000; #10;
+        data_in = 1; select = 3'b001; #10;
+        data_in = 1; select = 3'b010; #10;
+        data_in = 1; select = 3'b011; #10;
+        data_in = 1; select = 3'b100; #10;
+        data_in = 1; select = 3'b101; #10;
+        data_in = 1; select = 3'b110; #10;
+        data_in = 1; select = 3'b111; #10;
+        data_in = 0; select = 3'b100; #10;
+        $stop;
+    end
+endmodule
+
+
+
+Constraints:-Constraint file BASYS 3 FPGA Board
+# Switches
+set_property PACKAGE_PIN V17 [get_ports {s[0]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {s[0]}]
+set_property PACKAGE_PIN V16 [get_ports {s[1]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {s[1]}]
+set_property PACKAGE_PIN W16 [get_ports {s[2]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {s[2]}]
+set_property PACKAGE_PIN R2 [get_ports {data_in}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {data_in}]
+
+#LEDs
+set_property PACKAGE_PIN U15 [get_ports {data_out[0]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {data_out[0]}]
+set_property PACKAGE_PIN U14 [get_ports {data_out[1]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {data_out[1]}]
+set_property PACKAGE_PIN V14 [get_ports {data_out[2]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {data_out[2]}]
+set_property PACKAGE_PIN V13 [get_ports {data_out[3]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {data_out[3]}]
+set_property PACKAGE_PIN V3 [get_ports {data_out[4]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {data_out[4]}]
+set_property PACKAGE_PIN W3 [get_ports {data_out[5]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {data_out[5]}]
+set_property PACKAGE_PIN U3 [get_ports {data_out[6]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {data_out[6]}]
+set_property PACKAGE_PIN P3 [get_ports {data_out[7]}]					
+set_property IOSTANDARD LVCMOS33 [get_ports {data_out[7]}]
+
+
+
